@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div>
+        <img src="{{ url_for('static', filename='iti-logo.png') }}" alt="ITI Logo" class="image-logo"> 
+    </div>
+    <h1>Start Your Exam</h1>
+
+    <form method="POST" action="{{ url_for('submit_exam') }}">
+        <ul>
+            {% for ques_id, question_data in questions.items() %}
+                <li>
+                    <h2>{{ loop.index }}. {{ question_data['Question'] }}</h2>
+                    
+                    {% if question_data['Ques_Type'] == 'MCQ' %}
+                        <!-- Display each choice as a radio button for MCQ questions -->
+                        {% for choice in question_data['Choices'] %}
+                            <input type="radio" name="q{{ ques_id }}" value="{{ choice }}"> {{ choice }}<br>
+                        {% endfor %}
+                    {% elif question_data['Ques_Type'] == 'T/F' %}
+                        <!-- Hardcode True/False options for T/F questions -->
+                        <input type="radio" name="q{{ ques_id }}" value="True"> True<br>
+                        <input type="radio" name="q{{ ques_id }}" value="False"> False<br>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+        <button type="submit">Submit Exam</button>
+    </form>
+</body>
+</html>
