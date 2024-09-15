@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div>
+        <img src="{{ url_for('static', filename='iti-logo.png') }}" alt="ITI Logo" class="image-logo"> 
+    </div>
+    <h1>Welcome, {{ student.S_Fname }}</h1>
+    <p>Your Student ID: {{ student.SID }}</p>
+
+    <h2>Available Courses</h2>
+    <ul>
+        {% for course in courses %}
+            <li>{{ course.C_Name }}</li>
+        {% endfor %}
+    </ul>
+
+    <form action="{{ url_for('exam') }}" method="POST">
+        <ul>
+            {% for course in courses %}
+                <li>
+                    <input type="radio" id="course{{ course.CID }}" name="cid" value="{{ course.CID }}" required>
+                    <label for="course{{ course.CID }}">{{ course.C_Name }} (Course ID: {{ course.CID }})</label>
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="submit">Start Exam</button>
+    </form>
+</body>
+</html>
